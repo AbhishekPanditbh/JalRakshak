@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jal Rakshak AI - Water Saving Assistant</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background: #f4fbff;
+        color: #123;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    nav {
+        width: 100%;
+        background: #006d77;
+        color: white;
+        padding: 15px 6%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .logo span {
+        font-size: 30px;
+    }
+
+    nav ul {
+        display: flex;
+        gap: 22px;
+        list-style: none;
+    }
+
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+        color: #83e8ef;
+    }
+
+    .menu-btn {
+        display: none;
+        font-size: 26px;
+        cursor: pointer;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+        min-height: 88vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 70px 8%;
+        background: linear-gradient(135deg, #006d77, #00a8b5);
+        color: white;
+        gap: 40px;
+    }
+
+    .hero-text {
+        max-width: 650px;
+    }
+
+    .hero-text h1 {
+        font-size: 55px;
+        line-height: 1.1;
+        margin-bottom: 20px;
+    }
+
+    .hero-text h1 span {
+        color: #b8f3f5;
+    }
+
+    .hero-text p {
+        font-size: 19px;
+        line-height: 1.7;
+        margin-bottom: 30px;
+        color: #e4ffff;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 14px 24px;
+        border: none;
+        border-radius: 30px;
+        background: white;
+        color: #006d77;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-card {
+        width: 330px;
+        height: 330px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 150px;
+        box-shadow: 0 0 50px rgba(255,255,255,0.15);
+    }
+
+    /* ================= SECTION ================= */
+
+    section {
+        padding: 75px 8%;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .section-title h2 {
+        font-size: 36px;
+        color: #006d77;
+        margin-bottom: 10px;
+    }
+
+    .section-title p {
+        color: #607d85;
+    }
+
+    /* ================= DASHBOARD ================= */
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 25px;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px rgba(0,80,100,0.08);
+        border-left: 5px solid #00a8b5;
+    }
+
+    .stat-card .icon {
+        font-size: 35px;
+        margin-bottom: 10px;
+    }
+
+    .stat-card h3 {
+        font-size: 28px;
+        color: #006d77;
+    }
+
+    .stat-card p {
+        color: #718a90;
+        margin-top: 5px;
+    }
+
+    /* ================= CALCULATOR ================= */
+
+    .calculator-container {
+        max-width: 850px;
+        margin: auto;
+        background: white;
+        padding: 35px;
+        border-radius: 22px;
+        box-shadow: 0 10px 30px rgba(0,80,100,0.1);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .input-group label {
+        font-weight: bold;
+        color: #24545c;
+    }
+
+    .input-group input,
+    .input-group select,
+    .chat-input input {
+        padding: 13px;
+        border: 1px solid #c9e5e8;
+        border-radius: 10px;
+        outline: none;
+        font-size: 15px;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+        border-color: #00a8b5;
+    }
+
+    .calculate-btn {
+        width: 100%;
+        margin-top: 25px;
+        padding: 15px;
+        background: #006d77;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .calculate-btn:hover {
+        background: #00555d;
+    }
+
+    .result {
+        display: none;
+        margin-top: 25px;
+        padding: 20px;
+        background: #e8fafa;
+        border-radius: 12px;
+        color: #006d77;
+    }
+
+    .result strong {
+        font-size: 28px;
+    }
+
+    /* ================= FEATURES ================= */
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0,80,100,0.08);
+        transition: 0.3s;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+    }
+
+    .feature-card .big-icon {
+        font-size: 50px;
+        margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+        color: #006d77;
+        margin-bottom: 10px;
+    }
+
+    .feature-card p {
+        color: #668087;
+        line-height: 1.6;
+    }
+
+    /* ================= RAINWATER ================= */
+
+    .rain-box {
+        max-width: 850px;
+        margin: auto;
+        background: linear-gradient(135deg, #006d77, #00a8b5);
+        padding: 40px;
+        border-radius: 22px;
+        color: white;
+    }
+
+    .rain-box h3 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .rain-box .input-group label {
+        color: white;
+    }
+
+    .rain-result {
+        margin-top: 25px;
+        padding: 20px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.15);
+        display: none;
+    }
+
+    /* ================= LEAKAGE ================= */
+
+    .leakage {
+        max-width: 850px;
+        margin: auto;
+        background: white;
+        padding: 35px;
+        border-radius: 22px;
+        box-shadow: 0 10px 30px rgba(0,80,100,0.1);
+    }
+
+    .leak-status {
+        margin-top: 25px;
+        padding: 20px;
+        border-radius: 12px;
+        display: none;
+    }
+
+    /* ================= TIPS ================= */
+
+    .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .tip {
+        background: white;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 7px 20px rgba(0,80,100,0.08);
+    }
+
+    .tip h3 {
+        color: #006d77;
+        margin-bottom: 10px;
+    }
+
+    .tip p {
+        color: #617980;
+        line-height: 1.6;
+    }
+
+    /* ================= AI CHAT ================= */
+
+    .ai-section {
+        background: #e9f9fa;
+    }
+
+    .chat-box {
+        max-width: 850px;
+        margin: auto;
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,80,100,0.1);
+    }
+
+    .chat-header {
+        background: #006d77;
+        color: white;
+        padding: 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .chat-messages {
+        height: 350px;
+        overflow-y: auto;
+        padding: 20px;
+        background: #f7fcfc;
+    }
+
+    .message {
+        margin-bottom: 15px;
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 15px;
+        line-height: 1.5;
+    }
+
+    .bot {
+        background: #dff5f6;
+        color: #164e55;
+        border-bottom-left-radius: 3px;
+    }
+
+    .user {
+        background: #006d77;
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 3px;
+    }
+
+    .chat-input {
+        display: flex;
+        padding: 15px;
+        gap: 10px;
+        border-top: 1px solid #ddd;
+    }
+
+    .chat-input input {
+        flex: 1;
+    }
+
+    .chat-input button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 10px;
+        background: #006d77;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        background: #003f46;
+        color: white;
+        padding: 45px 8%;
+        text-align: center;
+    }
+
+    footer h2 {
+        margin-bottom: 10px;
+    }
+
+    footer p {
+        color: #b8dadd;
+        margin: 8px 0;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media(max-width: 900px) {
+        .stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .feature-grid,
+        .tips-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .hero-text h1 {
+            font-size: 42px;
+        }
+
+        .hero-card {
+            width: 250px;
+            height: 250px;
+            font-size: 110px;
+        }
+    }
+
+    @media(max-width: 650px) {
+
+        nav ul {
+            display: none;
+            position: absolute;
+            top: 65px;
+            left: 0;
+            width: 100%;
+            background: #006d77;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        nav ul.active {
+            display: flex;
+        }
+
+        .menu-btn {
+            display: block;
+        }
+
+        .hero {
+            flex-direction: column;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .hero-text h1 {
+            font-size: 38px;
+        }
+
+        .hero-card {
+            width: 200px;
+            height: 200px;
+            font-size: 90px;
+        }
+
+        .stats,
+        .feature-grid,
+        .tips-grid,
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        section {
+            padding: 55px 5%;
+        }
+
+        .calculator-container,
+        .leakage,
+        .rain-box {
+            padding: 25px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+    <div class="logo">
+        <span>💧</span>
+        Jal Rakshak AI
+    </div>
+
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+    <ul id="navMenu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#calculator">Calculator</a></li>
+        <li><a href="#rainwater">Rainwater</a></li>
+        <li><a href="#leakage">Leakage</a></li>
+        <li><a href="#ai">AI Assistant</a></li>
+    </ul>
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-text">
+
+        <h1>
+            Paani Bachao,<br>
+            <span>Bhavishya Bachao</span>
+        </h1>
+
+        <p>
+            Jal Rakshak AI ek smart water management platform hai
+            jo aapko paani ki khapat samajhne, leakage identify karne
+            aur paani bachane mein madad karta hai.
+        </p>
+
+        <a href="#calculator" class="btn">
+            💧 Water Usage Check Karein
+        </a>
+
+    </div>
+
+    <div class="hero-card">
+        💧
+    </div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard">
+
+    <div class="section-title">
+        <h2>📊 Water Dashboard</h2>
+        <p>Apni water saving journey ko track karein</p>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <div class="icon">💧</div>
+            <h3 id="totalUsage">0 L</h3>
+            <p>Estimated Daily Usage</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">🌱</div>
+            <h3 id="savedWater">0 L</h3>
+            <p>Potential Water Saving</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">🚰</div>
+            <h3>0</h3>
+            <p>Leakage Alerts</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">🏆</div>
+            <h3 id="points">100</h3>
+            <p>Water Saver Points</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section>
+
+    <div class="section-title">
+        <h2>✨ Smart Features</h2>
+        <p>Jal Rakshak AI ke powerful tools</p>
+    </div>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <div class="big-icon">🤖</div>
+            <h3>AI Water Assistant</h3>
+            <p>
+                AI se water saving ke personalized suggestions
+                prapt karein.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="big-icon">📊</div>
+            <h3>Water Calculator</h3>
+            <p>
+                Apne ghar ki estimated daily aur monthly water
+                consumption calculate karein.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="big-icon">🚰</div>
+            <h3>Leakage Detection</h3>
+            <p>
+                Meter readings ke basis par possible leakage
+                identify karein.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="big-icon">🌧️</div>
+            <h3>Rainwater Harvesting</h3>
+            <p>
+                Roof area aur rainfall ke basis par rainwater
+                collection estimate karein.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="big-icon">🌱</div>
+            <h3>Water Saving Tips</h3>
+            <p>
+                Ghar, farming aur daily life ke liye practical
+                water saving tips.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="big-icon">🏆</div>
+            <h3>Save Water Challenge</h3>
+            <p>
+                Water saving goals complete karke points aur
+                badges earn karein.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= WATER CALCULATOR ================= -->
+
+<section id="calculator">
+
+    <div class="section-title">
+        <h2>💧 Water Usage Calculator</h2>
+        <p>Apni daily water consumption ka estimate nikalein</p>
+    </div>
+
+    <div class="calculator-container">
+
+        <div class="form-grid">
+
+            <div class="input-group">
+                <label>👨‍👩‍👧‍👦 Family Members</label>
+                <input type="number" id="family" min="1" value="4">
+            </div>
+
+            <div class="input-group">
+                <label>🚿 Bathing (minutes/person)</label>
+                <input type="number" id="bath" min="0" value="10">
+            </div>
+
+            <div class="input-group">
+                <label>👕 Washing Machine (loads/day)</label>
+                <input type="number" id="washing" min="0" value="1">
+            </div>
+
+            <div class="input-group">
+                <label>🍳 Cooking & Drinking (L/day)</label>
+                <input type="number" id="cooking" min="0" value="30">
+            </div>
+
+            <div class="input-group">
+                <label>🌱 Gardening (L/day)</label>
+                <input type="number" id="garden" min="0" value="30">
+            </div>
+
+            <div class="input-group">
+                <label>🚽 Toilet Flushes/person/day</label>
+                <input type="number" id="flush" min="0" value="5">
+            </div>
+
+        </div>
+
+        <button class="calculate-btn" onclick="calculateWater()">
+            Calculate Water Usage
+        </button>
+
+        <div class="result" id="waterResult"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RAINWATER ================= -->
+
+<section id="rainwater">
+
+    <div class="section-title">
+        <h2>🌧️ Rainwater Harvesting Calculator</h2>
+        <p>Janiye aap kitna rainwater collect kar sakte hain</p>
+    </div>
+
+    <div class="rain-box">
+
+        <h3>Rainwater Collection Estimate</h3>
+
+        <div class="form-grid">
+
+            <div class="input-group">
+                <label>🏠 Roof Area (m²)</label>
+                <input type="number" id="roofArea" value="100" min="1">
+            </div>
+
+            <div class="input-group">
+                <label>🌧️ Annual Rainfall (mm)</label>
+                <input type="number" id="rainfall" value="800" min="1">
+            </div>
+
+        </div>
+
+        <button class="calculate-btn" onclick="calculateRain()">
+            Calculate Rainwater
+        </button>
+
+        <div class="rain-result" id="rainResult"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LEAKAGE ================= -->
+
+<section id="leakage">
+
+    <div class="section-title">
+        <h2>🚰 Leakage Detection</h2>
+        <p>Unusual water consumption ko identify karein</p>
+    </div>
+
+    <div class="leakage">
+
+        <div class="form-grid">
+
+            <div class="input-group">
+                <label>Previous Meter Reading</label>
+                <input type="number" id="previousMeter" value="1000">
+            </div>
+
+            <div class="input-group">
+                <label>Current Meter Reading</label>
+                <input type="number" id="currentMeter" value="1005">
+            </div>
+
+            <div class="input-group">
+                <label>Days Between Readings</label>
+                <input type="number" id="meterDays" value="1">
+            </div>
+
+            <div class="input-group">
+                <label>Family Members</label>
+                <input type="number" id="leakFamily" value="4">
+            </div>
+
+        </div>
+
+        <button class="calculate-btn" onclick="checkLeakage()">
+            🔍 Check Leakage
+        </button>
+
+        <div class="leak-status" id="leakStatus"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TIPS ================= -->
+
+<section>
+
+    <div class="section-title">
+        <h2>🌱 Water Saving Tips</h2>
+        <p>Roz ke chhote steps se bada difference laayein</p>
+    </div>
+
+    <div class="tips-grid">
+
+        <div class="tip">
+            <h3>🚿 Short Shower</h3>
+            <p>
+                Shower ka time kam karein. Bucket bath use karne
+                se bhi kaafi paani bachaya ja sakta hai.
+            </p>
+        </div>
+
+        <div class="tip">
+            <h3>🚰 Fix Leaks</h3>
+            <p>
+                Tap, pipe aur toilet mein leakage ko ignore na karein.
+                Chhota leak bhi roz bahut paani waste kar sakta hai.
+            </p>
+        </div>
+
+        <div class="tip">
+            <h3>🌧️ Rainwater Harvesting</h3>
+            <p>
+                Roof se rainwater collect karke gardening aur
+                doosre non-drinking kaamon mein use karein.
+            </p>
+        </div>
+
+        <div class="tip">
+            <h3>🧺 Full Washing Load</h3>
+            <p>
+                Washing machine ko half-load mein baar-baar chalane
+                ke bajay full load mein use karein.
+            </p>
+        </div>
+
+        <div class="tip">
+            <h3>🌱 Morning Gardening</h3>
+            <p>
+                Subah ya shaam plants ko paani dein taaki evaporation
+                kam ho.
+            </p>
+        </div>
+
+        <div class="tip">
+            <h3>🥤 Reuse Water</h3>
+            <p>
+                Safe leftover water ko plants ya cleaning ke liye
+                reuse karein.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= AI ASSISTANT ================= -->
+
+<section class="ai-section" id="ai">
+
+    <div class="section-title">
+        <h2>🤖 Jal Rakshak AI Assistant</h2>
+        <p>Water saving se related koi bhi sawaal poochiye</p>
+    </div>
+
+    <div class="chat-box">
+
+        <div class="chat-header">
+            💧 Jal Rakshak AI
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+
+            <div class="message bot">
+                Namaste! 👋 Main Jal Rakshak AI hoon.
+                Aap mujhse paani bachane, leakage,
+                rainwater harvesting ya water usage ke baare mein pooch sakte hain.
+            </div>
+
+        </div>
+
+        <div class="chat-input">
+
+            <input
+                type="text"
+                id="userMessage"
+                placeholder="Jaise: ghar mein paani kaise bachaye?"
+                onkeypress="handleEnter(event)"
+            >
+
+            <button onclick="sendMessage()">
+                Send
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <h2>💧 Jal Rakshak AI</h2>
+
+    <p>
+        Save Water • Save Life • Save Future
+    </p>
+
+    <p>
+        © 2026 Jal Rakshak AI | Water Conservation Platform
+    </p>
+
+</footer>
+
+
+<script>
+
+/* ================= MOBILE MENU ================= */
+
+function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("active");
+}
+
+
+/* ================= WATER CALCULATOR ================= */
+
+function calculateWater() {
+
+    let family = Number(document.getElementById("family").value);
+    let bath = Number(document.getElementById("bath").value);
+    let washing = Number(document.getElementById("washing").value);
+    let cooking = Number(document.getElementById("cooking").value);
+    let garden = Number(document.getElementById("garden").value);
+    let flush = Number(document.getElementById("flush").value);
+
+    /*
+       Approximate assumptions:
+       Shower = 9 L/min
+       Washing machine = 60 L/load
+       Toilet flush = 6 L
+    */
+
+    let bathingWater = family * bath * 9;
+    let washingWater = washing * 60;
+    let flushWater = family * flush * 6;
+
+    let totalDaily =
+        bathingWater +
+        washingWater +
+        cooking +
+        garden +
+        flushWater;
+
+    let monthly = totalDaily * 30;
+
+    let saving = totalDaily * 0.20;
+
+    document.getElementById("waterResult").style.display = "block";
+
+    document.getElementById("waterResult").innerHTML = `
+        <h3>💧 Aapka Estimated Water Usage</h3>
+        <br>
+        <strong>${totalDaily.toFixed(0)} Litres/day</strong>
+        <br><br>
+        Monthly Usage:
+        <b>${monthly.toFixed(0)} Litres</b>
+        <br><br>
+        Smart water-saving habits se approximately
+        <b>${saving.toFixed(0)} Litres/day</b> tak bachaya ja sakta hai.
+    `;
+
+    document.getElementById("totalUsage").innerText =
+        totalDaily.toFixed(0) + " L";
+
+    document.getElementById("savedWater").innerText =
+        saving.toFixed(0) + " L";
+
+    document.getElementById("points").innerText =
+        Math.round(100 + saving);
+
+}
+
+
+/* ================= RAINWATER CALCULATOR ================= */
+
+function calculateRain() {
+
+    let roofArea =
+        Number(document.getElementById("roofArea").value);
+
+    let rainfall =
+        Number(document.getElementById("rainfall").value);
+
+    /*
+       Formula:
+       Rainwater = Roof Area × Rainfall × Runoff Coefficient
+
+       0.8 = approximate collection efficiency
+    */
+
+    let efficiency = 0.8;
+
+    let liters =
+        roofArea * rainfall * efficiency;
+
+    document.getElementById("rainResult").style.display = "block";
+
+    document.getElementById("rainResult").innerHTML = `
+        <h3>🌧️ Estimated Rainwater</h3>
+        <br>
+        <strong>${liters.toFixed(0)} Litres/year</strong>
+        <br><br>
+        Aapki roof se approximately
+        <b>${(liters / 1000).toFixed(2)} KL</b>
+        rainwater collect kiya ja sakta hai.
+    `;
+}
+
+
+/* ================= LEAKAGE DETECTION ================= */
+
+function checkLeakage() {
+
+    let previous =
+        Number(document.getElementById("previousMeter").value);
+
+    let current =
+        Number(document.getElementById("currentMeter").value);
+
+    let days =
+        Number(document.getElementById("meterDays").value);
+
+    let family =
+        Number(document.getElementById("leakFamily").value);
+
+    if (current < previous) {
+        showLeak(
+            "⚠️ Meter readings invalid hain. Current reading previous reading se kam nahi ho sakti.",
+            "warning"
+        );
+        return;
+    }
+
+    if (days <= 0 || family <= 0) {
+        showLeak(
+            "⚠️ Please valid values enter karein.",
+            "warning"
+        );
+        return;
+    }
+
+    let totalUsage = current - previous;
+
+    /*
+       Approximate normal household consumption:
+       135 L/person/day
+    */
+
+    let expected =
+        family * 135 * days;
+
+    let percentage =
+        (totalUsage / expected) * 100;
+
+    if (totalUsage > expected * 1.5) {
+
+        showLeak(
+            `🚨 Possible Leakage Detected!<br><br>
+             Meter usage: <b>${totalUsage} units</b><br>
+             Expected usage: <b>${expected.toFixed(0)} units</b><br><br>
+             Tap, toilet, pipes aur water tank ko check karein.`,
+            "danger"
+        );
+
+    } else if (totalUsage > expected) {
+
+        showLeak(
+            `⚠️ Water consumption normal se zyada hai.<br><br>
+             Usage: <b>${totalUsage} units</b><br>
+             Expected: <b>${expected.toFixed(0)} units</b><br><br>
+             Water usage ko monitor karein.`,
+            "warning"
+        );
+
+    } else {
+
+        showLeak(
+            `✅ Koi major leakage indication nahi mila.<br><br>
+             Usage: <b>${totalUsage} units</b><br>
+             Expected: <b>${expected.toFixed(0)} units</b><br><br>
+             Paani bachane ki habits continue rakhein! 🌱`,
+            "success"
+        );
+
+    }
+}
+
+
+function showLeak(message, type) {
+
+    let box = document.getElementById("leakStatus");
+
+    box.style.display = "block";
+    box.innerHTML = message;
+
+    if (type === "danger") {
+        box.style.background = "#ffe8e8";
+        box.style.color = "#a40000";
+    }
+
+    if (type === "warning") {
+        box.style.background = "#fff5d9";
+        box.style.color = "#805900";
+    }
+
+    if (type === "success") {
+        box.style.background = "#e6f8ed";
+        box.style.color = "#126b38";
+    }
+}
+
+
+/* ================= AI ASSISTANT ================= */
+
+function sendMessage() {
+
+    let input =
+        document.getElementById("userMessage");
+
+    let message =
+        input.value.trim();
+
+    if (message === "") return;
+
+    addMessage(message, "user");
+
+    input.value = "";
+
+    setTimeout(function() {
+
+        let response =
+            generateAIResponse(message);
+
+        addMessage(response, "bot");
+
+    }, 500);
+}
+
+
+function addMessage(text, type) {
+
+    let chat =
+        document.getElementById("chatMessages");
+
+    let div =
+        document.createElement("div");
+
+    div.className = "message " + type;
+
+    div.innerHTML = text;
+
+    chat.appendChild(div);
+
+    chat.scrollTop = chat.scrollHeight;
+}
+
+
+function handleEnter(event) {
+
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+
+}
+
+
+/*
+   Demo AI response system.
+
+   Real AI ke liye baad mein OpenAI/Gemini
+   API ko backend ke through connect kiya ja sakta hai.
+*/
+
+function generateAIResponse(message) {
+
+    let text = message.toLowerCase();
+
+    if (
+        text.includes("paani kaise bach") ||
+        text.includes("water save") ||
+        text.includes("pani bach")
+    ) {
+
+        return `
+            💧 Paani bachane ke liye ye 5 steps follow karein:
+            <br><br>
+            1. 🚿 Shower ka time kam karein.<br>
+            2. 🚰 Leaking taps turant repair karein.<br>
+            3. 🌧️ Rainwater harvesting install karein.<br>
+            4. 🧺 Washing machine full load par chalayein.<br>
+            5. 🌱 Plants ko subah ya shaam paani dein.
+        `;
+
+    }
+
+
+    if (
+        text.includes("leak") ||
+        text.includes("leakage")
+    ) {
+
+        return `
+            🚰 Leakage check karne ke liye:
+            <br><br>
+            Raat ko sabhi taps aur water-consuming devices
+            band kar dein. Water meter reading note karein.
+            Kuch ghante baad reading dobara check karein.
+            Agar reading badh gayi hai to leakage ho sakti hai.
+        `;
+
+    }
+
+
+    if (
+        text.includes("rain") ||
+        text.includes("rainwater") ||
+        text.includes("baarish")
+    ) {
+
+        return `
+            🌧️ Rainwater harvesting ke liye roof se
+            rainwater ko pipe ke through filter aur storage
+            tank tak collect kiya ja sakta hai.
+            <br><br>
+            Upar diye gaye Rainwater Calculator se
+            approximate collection estimate karein.
+        `;
+
+    }
+
+
+    if (
+        text.includes("ghar") ||
+        text.includes("home")
+    ) {
+
+        return `
+            🏠 Ghar mein sabse zyada paani bathing,
+            toilet, washing aur cleaning mein use hota hai.
+            <br><br>
+            Aap Water Usage Calculator se apni
+            approximate consumption calculate kar sakte hain.
+        `;
+
+    }
+
+
+    if (
+        text.includes("farming") ||
+        text.includes("kheti") ||
+        text.includes("agriculture")
+    ) {
+
+        return `
+            🌱 Farming mein drip irrigation aur sprinkler
+            irrigation ka use karein.
+            <br><br>
+            Subah ya shaam irrigation karne se evaporation
+            loss kam ho sakta hai.
+        `;
+
+    }
+
+
+    return `
+        🤖 Main aapki help water conservation ke topics par
+        kar sakta hoon.
+        <br><br>
+        Aap pooch sakte hain:
+        <br>
+        • Ghar mein paani kaise bachaye?<br>
+        • Leakage kaise check kare?<br>
+        • Rainwater harvesting kya hai?<br>
+        • Kheti mein paani kaise bachaye?
+    `;
+}
+
+
+/* ================= INITIAL DATA ================= */
+
+document.getElementById("totalUsage").innerText = "0 L";
+document.getElementById("savedWater").innerText = "0 L";
+
+</script>
+
+</body>
+</html>
